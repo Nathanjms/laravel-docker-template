@@ -6,5 +6,5 @@ services:
         volumes:
             - .:/var/www/html
         environment:
-            - AUTORUN_ENABLED=1
-            - PHP_OPCACHE_ENABLE=1
+            - AUTORUN_ENABLED=true
+            - PHP_OPCACHE_ENABLE=true
