@@ -7,7 +7,11 @@ USER root
 RUN curl -sL https://deb.nodesource.com/setup_22.x | bash -
 RUN apt-get install -y nodejs
 
-COPY --chown=www-data:www-data . /var/www/html
+# Copy the existing application directory contents to the working directory
+COPY . /var/www
+
+# Copy the existing application directory permissions to the working directory
+COPY --chown=www-data:www-data . /var/www
 
 USER www-data
 
