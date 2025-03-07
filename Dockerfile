@@ -18,4 +18,6 @@ USER www-data
 RUN npm ci
 RUN npm run build
 
+RUN ls -la
+
 RUN composer install --no-interaction --optimize-autoloader --no-dev
