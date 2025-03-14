@@ -8,3 +8,23 @@ services:
         environment:
             - AUTORUN_ENABLED=true
             - PHP_OPCACHE_ENABLE=1
+
+    task:
+        image: serversideup/php:8.3-fpm-nginx
+        volumes:
+            - .:/var/www/html
+        command: ["php", "/var/www/html/artisan", "schedule:work"]
+        stop_signal: SIGTERM # Set this for graceful shutdown if you're using fpm-apache or fpm-nginx
+        healthcheck:
+            # This is our native healthcheck script for the scheduler
+            test: ["CMD", "healthcheck-schedule"]
+            start_period: 10s
+
+    queue:
+        image: serversideup/php:8.3-fpm-nginx
+        command: ["php", "/var/www/html/artisan", "queue:work", "--tries=3"]
+        stop_signal: SIGTERM # Set this for graceful shutdown if you're using fpm-apache or fpm-nginx
+        healthcheck:
+            # This is our native healthcheck script for the queue
+            test: ["CMD", "healthcheck-queue"]
+            start_period: 10s
